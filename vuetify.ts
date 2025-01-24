@@ -11,9 +11,9 @@ const customTheme: ThemeDefinition = {
 export default createVuetify({
     theme: {
         defaultTheme: 'dark',
-        themes: {
-            customTheme,
-        }
+        // themes: {
+        //     customTheme,
+        // }
     },
     components,
     directives,

@@ -1,32 +1,26 @@
-<script setup lang="ts">
-</script>
-
 <template>
-  <v-app>
-    <nav>
-      <v-navigation-drawer :width="500">
-        <v-list-item title="Controllers" subtitle="API"></v-list-item>
-        <v-divider></v-divider>
-        <RouterLink to="/dozenten">
-          <v-list-item link title="Dozenten"></v-list-item>
-        </RouterLink>
-        <RouterLink to="/kurse">
-          <v-list-item link title="Kurse"></v-list-item>
-        </RouterLink>
-        <RouterLink to="/kurse-lernende">
-          <v-list-item link title="Kurse-Lernende"></v-list-item>
-        </RouterLink>
-        <v-list-item link title="Länder"></v-list-item>
-        <v-list-item link title="Lehrbetrieb-Lernende"></v-list-item>
-        <v-list-item link title="Lehrbetriebe"></v-list-item>
-        <v-list-item link title="Lernende"></v-list-item>
-      </v-navigation-drawer>
-    </nav>
+  <v-app id="inspire">
+    <v-app-bar app>
+      Title
+    </v-app-bar>
 
-    <main>
+    <NavBar></NavBar>
+
+    <v-main>
       <RouterView></RouterView>
-    </main>
+    </v-main>
   </v-app>
 </template>
 
+<script setup>
+import {ref} from 'vue'
+import NavBar from "./components/NavBar.vue";
 
+const drawer = ref(null)
+</script>
+
+<script>
+export default {
+  data: () => ({drawer: null}),
+}
+</script>
