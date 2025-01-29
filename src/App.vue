@@ -1,10 +1,10 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-app-bar app>
       Title
     </v-app-bar>
 
-    <NavBar></NavBar>
+    <navBar></navBar>
 
     <v-main>
       <RouterView></RouterView>
@@ -13,14 +13,5 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
-import NavBar from "./components/NavBar.vue";
-
-const drawer = ref(null)
-</script>
-
-<script>
-export default {
-  data: () => ({drawer: null}),
-}
+import navBar from "./components/navBar.vue";
 </script>

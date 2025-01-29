@@ -1,13 +1,13 @@
 import {createMemoryHistory, createRouter} from 'vue-router'
 
-import dozenten from './components/pages/dozenten.vue'
-import kurse from './components/pages/kurse.vue'
-import kurse_lernende from './components/pages/kurse_lernende.vue'
-import laender from './components/pages/laender.vue'
-import lehrbetrieb_lernende from './components/pages/lehrbetrieb_lernende.vue'
-import lehrbetriebe from './components/pages/lehrbetriebe.vue'
-import lernende from './components/pages/lernende.vue'
-import home from './components/pages/home.vue'
+import kurse from './pages/kurse.vue'
+import kurse_lernende from './pages/kurse_lernende.vue'
+import laender from './pages/laender.vue'
+import lehrbetrieb_lernende from './pages/lehrbetrieb_lernende.vue'
+import lehrbetriebe from './pages/lehrbetriebe.vue'
+import lernende from './pages/lernende.vue'
+import home from './pages/home.vue'
+import dozenten from "./pages/dozenten.vue";
 
 const routes = [
     { path: '/', component: home },
