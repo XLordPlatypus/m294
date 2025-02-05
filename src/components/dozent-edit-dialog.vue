@@ -64,7 +64,7 @@ const birthdate = ref<string>("");
 const selectedCountry = ref<any>();
 const selectedItem = ref<any>();
 
-const url = ref("http://api.test/dozenten");
+const url = "http://api.test/dozenten";
 const { data } = useFetch(url).get().json();
 const tableItems = ref<any[]>([]);
 
@@ -125,7 +125,7 @@ const onUpdateClicked = () => {
     fk_land: selectedCountry.value?.id_countries.toString() || "",
   };
 
-  useFetch(`${url.value}/${selectedItem.value.id}`)
+  useFetch(`${url}/${selectedItem.value.id_dozent}`)
       .put(payload)
       .json()
       .then((response) => {
@@ -142,7 +142,7 @@ const onDeleteClicked = () => {
     return;
   }
 
-  useFetch(`${url.value}/${selectedItem.value.id}`)
+  useFetch(`${url}/${selectedItem.value.id_dozent}`)
       .delete()
       .json()
       .then((response) => {
