@@ -1,8 +1,8 @@
 <template>
   <v-card>
     <v-data-table :items="items"></v-data-table>
-    <lehrbetriebe-add-dialog></lehrbetriebe-add-dialog>
-    <lehrbetriebe-edit-dialog></lehrbetriebe-edit-dialog>
+    <LehrbetriebeAddDialog></LehrbetriebeAddDialog>
+    <LehrbetriebeEditDialog></LehrbetriebeEditDialog>
   </v-card>
 </template>
 
@@ -13,7 +13,7 @@ import {useFetch} from "@vueuse/core";
 import LehrbetriebeAddDialog from "../components/lehrbetriebe-add-dialog.vue";
 import LehrbetriebeEditDialog from "../components/lehrbetriebe-edit-dialog.vue";
 
-const url = ref("http://api.test/lehrbetriebe");
+const url = ref("http://api.test:8080/lehrbetriebe");
 const { data } = useFetch(url).get().json();
 const items = ref<string[]>([]);
 

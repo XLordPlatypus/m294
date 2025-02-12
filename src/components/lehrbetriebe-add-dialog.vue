@@ -40,14 +40,14 @@ const firma = ref<string>("");
 const street = ref<string>("");
 const postalCode = ref<string>("");
 const location = ref<string>("");
-const url = "http://api.test/lehrbetriebe";
+const url = "http://api.test:8080/lehrbetriebe";
 
 const onAddClicked = () => {
   const payload = {
     firma: firma.value,
-    strasse: street.value,
     plz: postalCode.value,
     ort: location.value,
+    strasse: street.value,
   };
 
   useFetch(url)

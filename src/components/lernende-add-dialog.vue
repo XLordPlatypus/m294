@@ -5,13 +5,13 @@
         <v-btn
             v-bind="activatorProps"
             color="surface-variant"
-            text="Add Dozent"
+            text="Add Lernende"
             variant="flat"
         ></v-btn>
       </template>
 
       <template v-slot:default="{ isActive }">
-        <v-card title="Add Dozent">
+        <v-card title="Add Lernende">
           <v-container>
             <v-text-field v-model="firstname" label="Vorname"></v-text-field>
             <v-text-field v-model="lastname" label="Nachname"></v-text-field>
@@ -23,6 +23,7 @@
             <v-text-field v-model="handy" label="Handy"></v-text-field>
             <v-text-field v-model="telefon" label="Telefon"></v-text-field>
             <v-text-field v-model="email" label="E-Mail"></v-text-field>
+            <v-text-field v-model="privateEmail" label="Private E-Mail"></v-text-field>
             <v-combobox
                 v-model="selectedCountry"
                 label="Country"
@@ -34,7 +35,6 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-
             <v-btn text="Add" @click="onAddClicked"></v-btn>
             <v-btn text="Close Dialog" @click="isActive.value = false"></v-btn>
           </v-card-actions>
@@ -59,10 +59,11 @@ const sex = ref<string>("");
 const handy = ref<string>("")
 const telefon = ref<string>("");
 const email = ref<string>("");
+const privateEmail = ref<string>("");
 const birthdate = ref<string>("");
 const selectedCountry = ref();
 
-const url = ref("http://api.test:8080/dozenten");
+const url = ref("http://api.test:8080/lernende");
 const {data} = useFetch(url).get().json();
 const tableItems = ref<string[]>([]);
 
@@ -97,11 +98,12 @@ const onAddClicked = () => {
     strasse: street.value,
     plz: postalCode.value,
     ort: location.value,
-    fk_land: selectedCountry.value.id_countries.toString(),
+    fk_land: selectedCountry.value["id_countries"].toString(),
     geschlecht: sex.value,
     telefon: telefon.value,
     handy: handy.value,
     email: email.value,
+    email_privat: privateEmail.value,
     birthdate: birthdate.value,
   };
 

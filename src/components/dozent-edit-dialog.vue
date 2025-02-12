@@ -64,12 +64,12 @@ const birthdate = ref<string>("");
 const selectedCountry = ref<any>();
 const selectedItem = ref<any>();
 
-const url = "http://api.test/dozenten";
+const url = "http://api.test:8080/dozenten";
 const { data } = useFetch(url).get().json();
 const tableItems = ref<any[]>([]);
 
 const countryItems = ref<{ id_countries: number; name: string }[]>([]);
-const countryUrl: string = "http://api.test/laender";
+const countryUrl: string = "http://api.test:8080/laender";
 const { data: countryData } = useFetch(countryUrl).get().json();
 
 watch(data, (newData) => {

@@ -12,7 +12,7 @@ import {useFetch} from "@vueuse/core";
 import DozentAddDialog from "../components/dozent-add-dialog.vue";
 import DozentEditDialog from "../components/dozent-edit-dialog.vue";
 
-const url = ref("http://api.test/dozenten");
+const url = ref("http://api.test:8080/dozenten");
 const {data} = useFetch(url).get().json();
 const tableItems = ref<string[]>([]);
 
