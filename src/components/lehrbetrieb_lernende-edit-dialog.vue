@@ -5,44 +5,38 @@
         <v-btn
             v-bind="activatorProps"
             color="surface-variant"
-            text="Update Apprenticeship"
+            text="Update Lehrbetrieb-Lernende"
             variant="flat"
         ></v-btn>
       </template>
 
       <template v-slot:default="{ isActive }">
-        <v-card title="Edit Apprenticeship Relationship">
+        <v-card title="Edit Lehrbetrieb-Lernende">
           <v-container>
-            <!-- Relationship Selection -->
             <v-combobox
                 v-model="selectedItem"
                 :items="tableItems"
-                label="Select Apprenticeship"
-                :item-title="getRelationshipLabel"
+                item-title="fullRelation"
+                item-value="id_lehrbetrieb_lernende"
+                label="Select Relation"
             ></v-combobox>
-
-            <!-- Company Selection -->
-            <v-combobox
-                v-model="selectedLehrbetrieb"
-                label="Company"
-                :items="lehrbetriebItems"
-                item-title="firma"
-                item-value="id_lehrbetrieb"
-            ></v-combobox>
-
-            <!-- Apprentice Selection -->
             <v-combobox
                 v-model="selectedLernende"
-                label="Apprentice"
                 :items="lernendeItems"
                 item-title="fullName"
                 item-value="id_lernende"
+                label="Select Lernende"
             ></v-combobox>
-
-            <!-- Apprenticeship Details -->
+            <v-combobox
+                v-model="selectedLehrbetrieb"
+                :items="lehrbetriebItems"
+                item-title="firma"
+                item-value="id_lehrbetrieb"
+                label="Select Lehrbetrieb"
+            ></v-combobox>
             <v-text-field v-model="start" type="date" label="Start Date"></v-text-field>
-            <v-text-field v-model="ende" type="date" label="End Date"></v-text-field>
-            <v-text-field v-model="beruf" label="Profession"></v-text-field>
+            <v-text-field v-model="end" type="date" label="End Date"></v-text-field>
+            <v-text-field v-model="beruf" label="Beruf"></v-text-field>
           </v-container>
 
           <v-card-actions>
@@ -61,88 +55,88 @@
 import { ref, watch } from "vue";
 import { useFetch } from "@vueuse/core";
 
-// Form data
+// Data references for the fields
 const start = ref<string>("");
-const ende = ref<string>("");
+const end = ref<string>("");
 const beruf = ref<string>("");
+
+// Selected Items
 const selectedItem = ref<any>();
-const selectedLehrbetrieb = ref<any>();
 const selectedLernende = ref<any>();
+const selectedLehrbetrieb = ref<any>();
 
-// API endpoints
-const url = "http://api.test:8080/lehrbetrieb_lernende";
-const lehrbetriebUrl = "http://api.test:8080/lehrbetrieb";
+// API URLs
+const lehrbetriebLernendeUrl = "http://api.test:8080/lehrbetrieb_lernende";
 const lernendeUrl = "http://api.test:8080/lernende";
+const lehrbetriebUrl = "http://api.test:8080/lehrbetriebe";
 
-// Data fetching
-const { data: relationData } = useFetch(url).get().json();
-const { data: lehrbetriebData } = useFetch(lehrbetriebUrl).get().json();
-const { data: lernendeData } = useFetch(lernendeUrl).get().json();
-
-// Data storage
+// Data from the backend
 const tableItems = ref<any[]>([]);
-const lehrbetriebItems = ref<any[]>([]);
 const lernendeItems = ref<any[]>([]);
+const lehrbetriebItems = ref<any[]>([]);
 
-// Helper function to generate readable labels for relationships
-const getRelationshipLabel = (item: any) => {
-  const company = lehrbetriebItems.value.find(l => l.id_lehrbetrieb === item.fk_lehrbetrieb);
-  const apprentice = lernendeItems.value.find(l => l.id_lernende === item.fk_lernende);
-  return `${company?.firma || 'Unknown Company'} - ${apprentice?.vorname || ''} ${apprentice?.nachname || 'Unknown Apprentice'} (${item.beruf})`;
-};
+// Fetch data from backend
+const { data: lehrbetriebLernendeData } = useFetch(lehrbetriebLernendeUrl).get().json();
+const { data: lernendeData } = useFetch(lernendeUrl).get().json();
+const { data: lehrbetriebData } = useFetch(lehrbetriebUrl).get().json();
 
-// Watch for data changes
-watch(relationData, (newData) => {
+// Watch for changes in data
+watch(lehrbetriebLernendeData, (newData) => {
   if (newData?.data) {
-    tableItems.value = newData.data;
-  }
-});
-
-watch(lehrbetriebData, (newData) => {
-  if (newData?.data) {
-    lehrbetriebItems.value = newData.data;
+    tableItems.value = newData.data.map((entry: any) => ({
+      ...entry,
+      fullRelation: `${entry.vorname} ${entry.nachname} - ${entry.firma}` // Display combination of lernende and lehrbetrieb
+    }));
   }
 });
 
 watch(lernendeData, (newData) => {
   if (newData?.data) {
     lernendeItems.value = newData.data.map((entry: any) => ({
-      ...entry,
+      id_lernende: entry.id_lernende,
       fullName: `${entry.vorname} ${entry.nachname}`
     }));
   }
 });
 
-// Watch selected item to populate form
+watch(lehrbetriebData, (newData) => {
+  if (newData?.data) {
+    lehrbetriebItems.value = newData.data.map((entry: any) => ({
+      id_lehrbetrieb: entry.id_lehrbetrieb,
+      firma: entry.firma
+    }));
+  }
+});
+
 watch(selectedItem, (newItem) => {
   if (newItem) {
     start.value = newItem.start || "";
-    ende.value = newItem.ende || "";
+    end.value = newItem.end || "";
     beruf.value = newItem.beruf || "";
-    selectedLehrbetrieb.value = lehrbetriebItems.value.find(
-        l => l.id_lehrbetrieb === newItem.fk_lehrbetrieb
-    );
     selectedLernende.value = lernendeItems.value.find(
-        l => l.id_lernende === newItem.fk_lernende
+        (item) => item.id_lernende === newItem.fk_lernende
+    );
+    selectedLehrbetrieb.value = lehrbetriebItems.value.find(
+        (item) => item.id_lehrbetrieb === newItem.fk_lehrbetrieb
     );
   }
 });
 
 const onUpdateClicked = () => {
-  if (!selectedItem.value || !selectedLehrbetrieb.value || !selectedLernende.value) {
-    console.error("Please select all required fields.");
+  if (!selectedItem.value) {
+    console.error("No item selected for update.");
     return;
   }
 
   const payload = {
-    fk_lehrbetrieb: selectedLehrbetrieb.value.id_lehrbetrieb.toString(),
-    fk_lernende: selectedLernende.value.id_lernende.toString(),
+    fk_lernende: selectedLernende.value?.id_lernende || "",
+    fk_lehrbetrieb: selectedLehrbetrieb.value?.id_lehrbetrieb || "",
+    beruf: beruf.value,
     start: start.value,
-    ende: ende.value,
-    beruf: beruf.value
+    end: end.value,
   };
 
-  useFetch(`${url}/${selectedItem.value.id_lehrbetrieb_lernende}`)
+  useFetch(`${lehrbetriebLernendeUrl}/${selectedItem.value.id_lehrbetrieb_lernende}`)
       .put(payload)
       .json()
       .then((response) => {
@@ -159,7 +153,7 @@ const onDeleteClicked = () => {
     return;
   }
 
-  useFetch(`${url}/${selectedItem.value.id_lehrbetrieb_lernende}`)
+  useFetch(`${lehrbetriebLernendeUrl}/${selectedItem.value.id_lehrbetrieb_lernende}`)
       .delete()
       .json()
       .then((response) => {
@@ -168,12 +162,6 @@ const onDeleteClicked = () => {
             (item) => item.id_lehrbetrieb_lernende !== selectedItem.value.id_lehrbetrieb_lernende
         );
         selectedItem.value = null;
-        // Reset form
-        start.value = "";
-        ende.value = "";
-        beruf.value = "";
-        selectedLehrbetrieb.value = null;
-        selectedLernende.value = null;
       })
       .catch((error) => {
         console.error("Error deleting record:", error);

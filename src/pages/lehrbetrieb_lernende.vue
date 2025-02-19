@@ -16,7 +16,7 @@
 
     <v-card-actions class="d-flex justify-space-between">
       <Lehrbetrieb_lernendeAddDialog></Lehrbetrieb_lernendeAddDialog>
-      <LehrbetriebeEditDialog></LehrbetriebeEditDialog>
+      <Lehrbetrieb_lernendeEditDialog></Lehrbetrieb_lernendeEditDialog>
     </v-card-actions>
   </v-card>
 </template>
@@ -25,7 +25,7 @@
 import {ref, watch, computed} from "vue";
 import {useFetch} from "@vueuse/core";
 import Lehrbetrieb_lernendeAddDialog from "../components/lehrbetrieb_lernende-add-dialog.vue";
-import LehrbetriebeEditDialog from "../components/lehrbetriebe-edit-dialog.vue";
+import Lehrbetrieb_lernendeEditDialog from "../components/lehrbetrieb_lernende-edit-dialog.vue";
 
 const url = ref("http://api.test:8080/lehrbetrieb_lernende");
 const {data} = useFetch(url).get().json();

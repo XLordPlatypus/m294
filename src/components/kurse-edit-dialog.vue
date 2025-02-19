@@ -13,7 +13,13 @@
       <template v-slot:default="{ isActive }">
         <v-card title="Edit Kurs">
           <v-container>
-            <v-combobox v-model="selectedItem" :items="tableItems" label="Select Entry"></v-combobox>
+            <v-combobox
+                v-model="selectedItem"
+                :items="tableItems"
+                label="Select Entry"
+                item-title="kursDisplay"
+                item-value="id_kurs">
+            </v-combobox>
             <v-text-field v-model="kursnummer" label="Kursnummer"></v-text-field>
             <v-text-field v-model="kursthema" label="Kursthema"></v-text-field>
             <v-textarea v-model="inhalt" label="Inhalt"></v-textarea>
@@ -64,9 +70,13 @@ const { data: dozentData } = useFetch(dozentUrl).get().json();
 
 watch(data, (newData) => {
   if (newData?.data) {
-    tableItems.value = newData.data;
+    tableItems.value = newData.data.map((entry: any) => ({
+      ...entry,
+      kursDisplay: `${entry.kursnummer} - ${entry.kursthema}`, // Display both Kursnummer and Kursthema
+    }));
   }
 });
+
 
 watch(dozentData, (newData) => {
   if (newData?.data) {
