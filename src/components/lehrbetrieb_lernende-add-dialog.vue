@@ -61,7 +61,7 @@ const selectedLernende = ref<any>();
 
 // API endpoints
 const url = ref("http://api.test:8080/lehrbetrieb_lernende");
-const lehrbetriebUrl = "http://api.test:8080/lehrbetrieb";
+const lehrbetriebUrl = "http://api.test:8080/lehrbetriebe";
 const lernendeUrl = "http://api.test:8080/lernende";
 
 // Data fetching
