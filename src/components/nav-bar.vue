@@ -5,7 +5,7 @@
       app
   >
     <v-list>
-      <v-list-item title="Controllers" subtitle="API"></v-list-item>
+      <v-list-item title="API Controllers"></v-list-item>
       <v-divider></v-divider>
       <v-list-item to="/" title="Home" value="home"></v-list-item>
       <v-list-item to="/dozenten" title="Dozenten" value="dozenten"></v-list-item>

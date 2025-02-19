@@ -2,7 +2,7 @@
   <v-card>
     <v-card-text>
       <v-card-text></v-card-text>
-      <v-data-table :items="items"></v-data-table>
+      <v-data-table :headers="headers" :items="items"></v-data-table>
     </v-card-text>
 
     <v-card-actions class="d-flex justify-space-between">
@@ -22,6 +22,10 @@ import CountryEditDialog from "../components/country-edit-dialog.vue";
 const url = ref("http://api.test:8080/laender");
 const {data} = useFetch(url).get().json();
 const items = ref<string[]>([]);
+
+const headers = [
+  {title: 'Land', key: 'country'},
+];
 
 watch(data, (newData) => {
   if (newData?.data) {

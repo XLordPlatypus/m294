@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-text>
-      <v-data-table :items="items"></v-data-table>
+      <v-data-table :headers="headers" :items="items"></v-data-table>
     </v-card-text>
 
     <v-divider></v-divider>
@@ -23,6 +23,13 @@ import LehrbetriebeEditDialog from "../components/lehrbetriebe-edit-dialog.vue";
 const url = ref("http://api.test:8080/lehrbetriebe");
 const {data} = useFetch(url).get().json();
 const items = ref<string[]>([]);
+
+const headers = [
+  {title: 'Firma', key: 'firma'},
+  {title: 'Strasse', key: 'strasse'},
+  {title: 'Plz', key: 'plz'},
+  {title: 'Ort', key: 'ort'},
+];
 
 watch(data, (newData) => {
   if (newData?.data) {

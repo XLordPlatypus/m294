@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app>
-      Title
+      Kursverwaltung
     </v-app-bar>
 
     <navBar></navBar>

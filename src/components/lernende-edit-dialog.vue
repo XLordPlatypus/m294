@@ -16,7 +16,7 @@
             <v-combobox
                 v-model="selectedItem"
                 :items="tableItems"
-                label="Select Entry"
+                label="Eintrag Auswählen"
                 item-title="nachname"
                 item-value="id_lernende"
             ></v-combobox>

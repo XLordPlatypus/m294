@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-text>
-      <v-data-table :items="items"></v-data-table>
+      <v-data-table :headers="headers" :items="items"></v-data-table>
     </v-card-text>
 
     <v-divider></v-divider>
@@ -23,6 +23,20 @@ import LernendeEditDialog from "../components/lernende-edit-dialog.vue";
 const url = ref("http://api.test:8080/lernende");
 const {data} = useFetch(url).get().json();
 const items = ref<string[]>([]);
+
+const headers = [
+  {title: 'Vorname', key: 'vorname'},
+  {title: 'Nachname', key: 'nachname'},
+  {title: 'Strasse', key: 'strasse'},
+  {title: 'Plz', key: 'plz'},
+  {title: 'Ort', key: 'ort'},
+  {title: 'Geschlecht', key: 'geschlecht'},
+  {title: 'Telefon', key: 'telefon'},
+  {title: 'Handy', key: 'handy'},
+  {title: 'Email', key: 'email'},
+  {title: 'Email Privat', key: 'email_privat'},
+  {title: 'Geburtsdatum', key: 'birthdate'},
+];
 
 watch(data, (newData) => {
   if (newData?.data) {
