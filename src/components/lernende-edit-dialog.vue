@@ -143,6 +143,7 @@ const onUpdateClicked = () => {
         console.log("Update successful:", response);
       })
       .catch((error) => {
+        alert(error)
         console.error("Error updating record:", error);
       });
 };
@@ -164,6 +165,7 @@ const onDeleteClicked = () => {
         selectedItem.value = null;
       })
       .catch((error) => {
+        alert(error)
         console.error("Error deleting record:", error);
       });
 };

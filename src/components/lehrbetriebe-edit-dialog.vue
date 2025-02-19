@@ -14,7 +14,15 @@
       <template v-slot:default="{ isActive }">
         <v-card title="Edit Lehrbetrieb">
           <v-container>
-            <v-combobox v-model="selectedItem" :items="tableItems" label="Select Entry"></v-combobox>
+            <!-- Combobox displaying the firma correctly -->
+            <v-combobox
+                v-model="selectedItem"
+                :items="tableItems"
+                item-title="firma"
+                item-value="id_lehrbetrieb"
+                label="Select Lehrbetrieb"
+            ></v-combobox>
+
             <v-text-field v-model="firma" label="Firma"></v-text-field>
             <v-text-field v-model="street" label="Strasse"></v-text-field>
             <v-text-field v-model="postalCode" label="PLZ"></v-text-field>
@@ -49,12 +57,14 @@ const tableItems = ref<any[]>([]);
 
 watch(data, (newData) => {
   if (newData?.data) {
+    // Map the whole object instead of just firma
     tableItems.value = newData.data;
   }
 });
 
 watch(selectedItem, (newItem) => {
   if (newItem) {
+    // When a new item is selected, populate the fields
     firma.value = newItem.firma || "";
     street.value = newItem.strasse || "";
     postalCode.value = newItem.plz || "";
@@ -64,6 +74,7 @@ watch(selectedItem, (newItem) => {
 
 const onUpdateClicked = () => {
   if (!selectedItem.value) {
+    alert("No item selected for update.");
     console.error("No item selected for update.");
     return;
   }
@@ -82,12 +93,14 @@ const onUpdateClicked = () => {
         console.log("Lehrbetrieb updated:", response);
       })
       .catch((error) => {
+        alert(error);
         console.error("Error updating Lehrbetrieb:", error);
       });
 };
 
 const onDeleteClicked = () => {
   if (!selectedItem.value) {
+    alert("No item selected for deletion.");
     console.error("No item selected for deletion.");
     return;
   }
@@ -103,6 +116,7 @@ const onDeleteClicked = () => {
         selectedItem.value = null;
       })
       .catch((error) => {
+        alert(error);
         console.error("Error deleting Lehrbetrieb:", error);
       });
 };

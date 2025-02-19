@@ -88,6 +88,7 @@ watch(countryData, (newData) => {
 
 const onAddClicked = () => {
   if (!selectedCountry.value) {
+    alert("Please select a country.")
     console.error("Please select a country.");
     return;
   }
@@ -112,6 +113,7 @@ const onAddClicked = () => {
         console.log("Response from server:", response);
       })
       .catch(error => {
+        alert(error)
         console.error("Error submitting form:", error);
       });
 }
