@@ -13,7 +13,14 @@
       <template v-slot:default="{ isActive }">
         <v-card title="Edit Lernende">
           <v-container>
-            <v-combobox v-model="selectedItem" :items="tableItems" label="Select Entry"></v-combobox>
+            <v-combobox
+                v-model="selectedItem"
+                :items="tableItems"
+                label="Select Entry"
+                item-title="nachname"
+                item-value="id_lernende"
+            ></v-combobox>
+
             <v-text-field v-model="firstname" label="Vorname"></v-text-field>
             <v-text-field v-model="lastname" label="Nachname"></v-text-field>
             <v-text-field v-model="birthdate" type="date" label="Birthdate"></v-text-field>
@@ -30,8 +37,9 @@
                 label="Country"
                 :items="countryItems"
                 item-title="name"
-                item-value="id"
+                item-value="id_countries"
             ></v-combobox>
+
           </v-container>
 
           <v-card-actions>
@@ -102,11 +110,10 @@ watch(selectedItem, (newItem) => {
     email.value = newItem.email || "";
     privateEmail.value = newItem.email_privat || "";
     birthdate.value = newItem.birthdate || "";
-    selectedCountry.value = countryItems.value.find(
-        (country) => country.id_countries === parseInt(newItem.fk_land)
-    );
+    selectedCountry.value = newItem.fk_land; // Assign ID, not object
   }
 });
+
 
 const onUpdateClicked = () => {
   if (!selectedItem.value) {

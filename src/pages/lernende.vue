@@ -1,8 +1,15 @@
 <template>
   <v-card>
-    <v-data-table :items="items"></v-data-table>
-    <LernendeAddDialog></LernendeAddDialog>
-    <LernendeEditDialog></LernendeEditDialog>
+    <v-card-text>
+      <v-data-table :items="items"></v-data-table>
+    </v-card-text>
+
+    <v-divider></v-divider>
+
+    <v-card-actions class="d-flex justify-space-between">
+      <LernendeAddDialog></LernendeAddDialog>
+      <LernendeEditDialog></LernendeEditDialog>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -14,7 +21,7 @@ import LernendeAddDialog from "../components/lernende-add-dialog.vue";
 import LernendeEditDialog from "../components/lernende-edit-dialog.vue";
 
 const url = ref("http://api.test:8080/lernende");
-const { data } = useFetch(url).get().json();
+const {data} = useFetch(url).get().json();
 const items = ref<string[]>([]);
 
 watch(data, (newData) => {

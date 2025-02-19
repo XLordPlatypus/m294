@@ -13,7 +13,13 @@
       <template v-slot:default="{ isActive }">
         <v-card title="Edit Dozent">
           <v-container>
-            <v-combobox v-model="selectedItem" :items="tableItems" label="Select Entry"></v-combobox>
+            <v-combobox
+                v-model="selectedItem"
+                :items="tableItems"
+                item-title="fullName"
+                item-value="id_dozent"
+                label="Select Entry"
+            ></v-combobox>
             <v-text-field v-model="firstname" label="Vorname"></v-text-field>
             <v-text-field v-model="lastname" label="Nachname"></v-text-field>
             <v-text-field v-model="birthdate" type="date" label="Birthdate"></v-text-field>
@@ -24,6 +30,7 @@
             <v-text-field v-model="handy" label="Handy"></v-text-field>
             <v-text-field v-model="telefon" label="Telefon"></v-text-field>
             <v-text-field v-model="email" label="E-Mail"></v-text-field>
+            <v-text-field v-model="emailPrivat" label="E-Mail Privat"></v-text-field>
             <v-combobox
                 v-model="selectedCountry"
                 label="Country"
@@ -60,6 +67,7 @@ const sex = ref<string>("");
 const handy = ref<string>("")
 const telefon = ref<string>("");
 const email = ref<string>("");
+const emailPrivat = ref<string>("");
 const birthdate = ref<string>("");
 const selectedCountry = ref<any>();
 const selectedItem = ref<any>();
@@ -74,9 +82,13 @@ const { data: countryData } = useFetch(countryUrl).get().json();
 
 watch(data, (newData) => {
   if (newData?.data) {
-    tableItems.value = newData.data;
+    tableItems.value = newData.data.map((entry: any) => ({
+      ...entry,
+      fullName: `${entry.vorname} ${entry.nachname}` // Combine vorname and nachname
+    }));
   }
 });
+
 
 watch(countryData, (newData) => {
   if (newData?.data) {
@@ -98,6 +110,7 @@ watch(selectedItem, (newItem) => {
     handy.value = newItem.handy || "";
     telefon.value = newItem.telefon || "";
     email.value = newItem.email || "";
+    emailPrivate.value = newItem.email_privat || "";
     birthdate.value = newItem.birthdate || "";
     selectedCountry.value = countryItems.value.find(
         (country) => country.id_countries === parseInt(newItem.fk_land)
@@ -121,6 +134,7 @@ const onUpdateClicked = () => {
     handy: handy.value,
     telefon: telefon.value,
     email: email.value,
+    email_privat: emailPrivat.value,
     birthdate: birthdate.value,
     fk_land: selectedCountry.value?.id_countries.toString() || "",
   };

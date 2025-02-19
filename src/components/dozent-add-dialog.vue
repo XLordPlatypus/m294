@@ -23,6 +23,7 @@
             <v-text-field v-model="handy" label="Handy"></v-text-field>
             <v-text-field v-model="telefon" label="Telefon"></v-text-field>
             <v-text-field v-model="email" label="E-Mail"></v-text-field>
+            <v-text-field v-model="emailPrivate" label="E-Mail Privat"></v-text-field>
             <v-combobox
                 v-model="selectedCountry"
                 label="Country"
@@ -59,6 +60,7 @@ const sex = ref<string>("");
 const handy = ref<string>("")
 const telefon = ref<string>("");
 const email = ref<string>("");
+const emailPrivate = ref<string>("")
 const birthdate = ref<string>("");
 const selectedCountry = ref();
 
@@ -102,6 +104,7 @@ const onAddClicked = () => {
     telefon: telefon.value,
     handy: handy.value,
     email: email.value,
+    email_private: emailPrivate.value,
     birthdate: birthdate.value,
   };
 

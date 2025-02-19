@@ -1,10 +1,7 @@
 <template>
-  <div>
-    <h1 class="mb-4">Courses by Student</h1>
-
-    <!-- Loop through each student group -->
+  <v-card>
     <div v-for="(courses, studentName) in groupedByStudent" :key="studentName" class="mb-6">
-      <v-card>
+      <v-card-text>
         <v-card-title>{{ studentName }}</v-card-title>
         <v-data-table
             :headers="headers"
@@ -12,22 +9,17 @@
             :items-per-page="5"
             class="elevation-1"
         >
-          <!-- Optional: Add action buttons -->
-          <template v-slot:item.actions="{ item }">
-            <v-btn icon small @click="editItem(item)">
-              <v-icon small>mdi-pencil</v-icon>
-            </v-btn>
-            <v-btn icon small @click="deleteItem(item)" class="ml-2">
-              <v-icon small>mdi-delete</v-icon>
-            </v-btn>
-          </template>
         </v-data-table>
-      </v-card>
+      </v-card-text>
     </div>
 
+    <v-divider></v-divider>
+
+    <v-card-actions class="d-flex justify-space-between">
     <Kurse_lernendeAddDialog></Kurse_lernendeAddDialog>
     <Kurse_lernendeEditDialog></Kurse_lernendeEditDialog>
-  </div>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -42,13 +34,12 @@ const items = ref<any[]>([]);
 
 // Define table headers for course information
 const headers = [
-  { title: 'Course Number', key: 'kursnummer' },
-  { title: 'Course Topic', key: 'kursthema' },
-  { title: 'Start Date', key: 'startdatum' },
-  { title: 'End Date', key: 'enddatum' },
-  { title: 'Duration', key: 'dauer' },
-  { title: 'Role', key: 'role' },
-  { title: 'Actions', key: 'actions', sortable: false }
+  { title: 'Kursnummer', key: 'kursnummer' },
+  { title: 'Kursthema', key: 'kursthema' },
+  { title: 'Startdatum', key: 'startdatum' },
+  { title: 'Enddatum', key: 'enddatum' },
+  { title: 'Dauer', key: 'dauer' },
+  { title: 'Rolle', key: 'role' },
 ];
 
 // Watch for data changes and update items
@@ -74,15 +65,4 @@ const groupedByStudent = computed(() => {
 
   return grouped;
 });
-
-// Functions for handling edit and delete actions
-const editItem = (item: any) => {
-  console.log('Edit item:', item);
-  // Implement edit functionality or trigger dialog
-};
-
-const deleteItem = (item: any) => {
-  console.log('Delete item:', item);
-  // Implement delete functionality
-};
 </script>
